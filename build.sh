@@ -6,12 +6,12 @@
 #####################################################################
 
 pluginPrefix="$:/plugins/felixhayashi/vis"  # prefix for all tiddlers of this plugin
-distPath="dist/felixhayashi/vis/"           # output path
-srcPath="src/"                              # plugin's src path
-visSrcPath="${srcPath}/vis/dist/"           # vis module's dist path
-imgSrcPath="${srcPath}/img/"                # customised vis-images path
+distPath="dist/felixhayashi/vis"           # output path
+srcPath="src"                              # plugin's src path
+visSrcPath="/home/quentin/Documents/github/vis/dist"           # vis module's dist path
+imgSrcPath="${srcPath}/img"                # customised vis-images path
 images=($(cd "$imgSrcPath"; echo */*;))     # array of customised vis-images
-compress=1                                  # set this to 0 to disable compression of css and js
+compress=0                                  # set this to 0 to disable compression of css and js
 
 #####################################################################
 # Program
@@ -57,9 +57,8 @@ done
 #====================================================================
 printf "replace urls...\n"
 #====================================================================
-
 {
-  perl fixurls.pl "$visSrcPath/vis.css" "$pluginPrefix"
+  perl fixurls.pl "../vis/dist/vis.css" "$pluginPrefix"
 } > "$distPath/tiddlers/vis.css.tid"
 
 #====================================================================
@@ -80,7 +79,7 @@ macro=\
 \end'
 
 # uglifyied content; redirect stdin so its not closed by npm command
-body=$(uglifycss $distPath/tiddlers/vis.css.tid < /dev/null)
+body=$(uglifycss dist/felixhayashi/vis/tiddlers/vis.css.tid < /dev/null)
 
 if [ $compress == 1 ]; then
   # uglifyied content; redirect stdin so its not closed by npm command
